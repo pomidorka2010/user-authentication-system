@@ -13,7 +13,14 @@ mongoose.connect(process.env.DATABASE_URL, { useNewUrlParser: true, useUnifiedTo
   .then(() => console.log('MongoDB connected'))
   .catch(err => console.log(err));
 
+// Use user routes defined in routes/user.js
 app.use('/api', userRoutes);
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send('Something broke!');
+});
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
