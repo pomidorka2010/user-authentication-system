@@ -14,7 +14,10 @@ app.use(bodyParser.json());
 // Connect to MongoDB database
 mongoose.connect(process.env.DATABASE_URL, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log('MongoDB connected'))
-  .catch(err => console.log(err));
+  .catch(err => {
+    console.error('Database connection error:', err); // Log database connection errors
+    process.exit(1); // Exit the process on database connection failure
+  });
 
 // Use user routes defined in routes/user.js
 app.use('/api', userRoutes);
